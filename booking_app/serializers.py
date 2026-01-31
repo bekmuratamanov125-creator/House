@@ -5,12 +5,12 @@ from .models import Region, City, Property, PropertyImage, Review, UserProfile
 class RegionListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
-        fields = ['country_name']
+        fields = ['region_name']
 
 class RegionDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Region
-        fields = ['id', 'country_name', 'country_image']
+        fields = ['id', 'region_name', 'region_image']
 
 
 class CityListSerializer(serializers.ModelSerializer):
@@ -20,10 +20,10 @@ class CityListSerializer(serializers.ModelSerializer):
 
 
 class CityDetailSerializer(serializers.ModelSerializer):
-    country = RegionListSerializer(read_only=True)
+    region = RegionListSerializer(read_only=True)
     class Meta:
         model = City
-        fields = ['id', 'city_name', 'city_image', 'country']
+        fields = ['id', 'city_name', 'city_image', 'region']
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -41,19 +41,19 @@ class PropertyImageSerializer(serializers.ModelSerializer):
 
 class PropertyListSerializer(serializers.ModelSerializer):
     city = CityListSerializer(read_only=True)
-    country = RegionListSerializer(read_only=True)
+    region = RegionListSerializer(read_only=True)
     class Meta:
         model = Property
         fields = ['id', 'title', 'price', 'city', 'region']
 
 class PropertyDetailSerializer(serializers.ModelSerializer):
     city = CityListSerializer(read_only=True)
-    country = RegionListSerializer(read_only=True)
+    region = RegionListSerializer(read_only=True)
     images = PropertyImageSerializer(many=True,read_only=True,)
     class Meta:
         model = Property
         fields = ['id',  'title', 'description','price','address',
-                  'type','is_active','created_date','city','region','images','amenities',]
+                  'type','is_active','created_date','city','region','images']
 
 
 class ReviewSerializer(serializers.ModelSerializer):
